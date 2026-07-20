@@ -1,42 +1,137 @@
-export default function Login() {
-  return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="bg-white shadow-xl rounded-xl p-8 w-full max-w-md">
-        <h1 className="text-3xl font-bold text-center text-blue-600 mb-6">
-          Login
-        </h1>
+import { useState } from "react";
+import { Link } from "react-router-dom";
+import {
+  FaEnvelope,
+  FaLock,
+  FaEye,
+  FaEyeSlash,
+  FaRocket,
+} from "react-icons/fa";
 
-        <form>
-          <div className="mb-4">
-            <label className="block text-gray-700 mb-2">
-              Email
-            </label>
+function Login() {
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  });
+
+  const [showPassword, setShowPassword] = useState(false);
+
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    if (!formData.email || !formData.password) {
+      alert("Please fill all fields.");
+      return;
+    }
+
+    alert("Login Successful!");
+  };
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-indigo-950 to-slate-900 flex items-center justify-center px-4 py-10">
+
+      <div className="w-full max-w-md bg-white/10 backdrop-blur-xl border border-white/20 rounded-3xl shadow-2xl p-8">
+
+        <div className="text-center mb-8">
+
+          <h2 className="text-3xl font-bold bg-gradient-to-r from-cyan-400 to-purple-500 bg-clip-text text-transparent">
+            LaunchPad AI
+          </h2>
+
+          <div className="w-20 h-20 mx-auto mt-5 rounded-full bg-gradient-to-r from-purple-600 to-blue-600 flex items-center justify-center shadow-lg shadow-purple-600/40">
+            <FaRocket className="text-white text-4xl" />
+          </div>
+
+          <h1 className="text-4xl font-bold text-white mt-5">
+            Welcome Back
+          </h1>
+
+          <p className="text-gray-300 mt-2">
+            Login to continue building your startup.
+          </p>
+
+        </div>
+
+        <form onSubmit={handleSubmit} className="space-y-5">
+
+          <div className="relative">
+            <FaEnvelope className="absolute left-4 top-4 text-gray-400" />
+
             <input
               type="email"
-              placeholder="Enter your email"
-              className="w-full border rounded-lg p-3"
+              name="email"
+              placeholder="Email Address"
+              value={formData.email}
+              onChange={handleChange}
+              required
+              className="w-full pl-12 pr-4 py-3 rounded-xl bg-white/10 border border-white/20 text-white placeholder-gray-300 outline-none focus:ring-2 focus:ring-purple-500"
             />
           </div>
 
-          <div className="mb-6">
-            <label className="block text-gray-700 mb-2">
-              Password
-            </label>
+          <div className="relative">
+            <FaLock className="absolute left-4 top-4 text-gray-400" />
+
             <input
-              type="password"
-              placeholder="Enter your password"
-              className="w-full border rounded-lg p-3"
+              type={showPassword ? "text" : "password"}
+              name="password"
+              placeholder="Password"
+              value={formData.password}
+              onChange={handleChange}
+              required
+              className="w-full pl-12 pr-12 py-3 rounded-xl bg-white/10 border border-white/20 text-white placeholder-gray-300 outline-none focus:ring-2 focus:ring-purple-500"
             />
+
+            <button
+              type="button"
+              className="absolute right-4 top-4 text-gray-400"
+              onClick={() => setShowPassword(!showPassword)}
+            >
+              {showPassword ? <FaEyeSlash /> : <FaEye />}
+            </button>
+
+          </div>
+
+          <div className="text-right">
+
+            <Link
+              to="/forgot-password"
+              className="text-sm text-purple-400 hover:text-purple-300"
+            >
+              Forgot Password?
+            </Link>
+
           </div>
 
           <button
             type="submit"
-            className="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700"
+            className="w-full py-3 rounded-xl text-lg font-semibold text-white bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-500 hover:to-blue-500 transition duration-300 hover:scale-105"
           >
             Login
           </button>
+
         </form>
+
+        <p className="text-center text-gray-300 mt-6">
+          Don't have an account?
+          <Link
+            to="/signup"
+            className="text-purple-400 hover:text-purple-300 font-semibold ml-2"
+          >
+            Create Account
+          </Link>
+        </p>
+
       </div>
+
     </div>
   );
 }
+
+export default Login;
